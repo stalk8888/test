@@ -1,0 +1,41 @@
+version: "3"
+services:
+  php:
+    image: yiisoftware/yii2-php:7.1-apache
+    volumes:
+      - ~/.composer-docker/cache:/root/.composer/cache:delegated
+      - ./:/app:delegated
+    ports:
+      - '8000:80'
+    depends_on:
+      -  mysql
+
+  mysql:
+    image: mysql:latest
+    volumes:
+      - ./db:/var/lib/mysql
+    command: ['mysqld', '--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci']
+    environment:
+      MYSQL_ROOT_PASSWORD: qqq
+      MYSQL_DATABASE: db
+      MYSQL_USER: qqq
+      MYSQL_PASSWORD: qqq
+    ports:
+      - 33060:3306
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: phpmyadmin
+    restart: always
+    environment:
+      PMA_HOST: mysql
+      MYSQL_USERNAME: qqq
+      MYSQL_PASSWORD: qqq
+      MYSQL_ROOT_PASSWORD: qqq
+    ports:
+      - 8888:80
+    volumes:
+      - /sessions
+    depends_on:
+      -  php
+      -  mysql

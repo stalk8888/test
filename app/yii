@@ -1,0 +1,15 @@
+#!/usr/bin/env php
+<?php
+/**
+ * Yii консоль.
+ */
+
+require __DIR__ . '/common/config/main.php';
+require __DIR__ . '/common/config/bootstrap.php';
+
+
+$config =  require __DIR__ . '/console/config/config.php';
+
+$application = new yii\console\Application($config);
+$exitCode = $application->run();
+exit($exitCode);
